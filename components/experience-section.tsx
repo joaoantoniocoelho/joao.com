@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { FiArrowRight, FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import { FiArrowRight, FiChevronDown, FiChevronUp, FiExternalLink } from 'react-icons/fi';
 import experiencesData from '@/data/experiences.json';
 import { useState } from 'react';
 
@@ -47,30 +47,29 @@ export function ExperienceSection() {
                 viewport={{ once: true }}
                 className="bg-white/5 p-5 rounded-lg w-full"
               >
-                <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-1 mb-2">
-                  <h3 className="text-xl font-semibold text-white">{exp.title}</h3>
-                  <p className="text-sm text-gray-500">{exp.period}</p>
-                </div>
-                <div className="flex items-center mb-2 gap-2 flex-wrap">
-                  <p className="text-gray-400">{exp.company}</p>
-                  {exp.companyUrl && (
-                    <a 
-                      href={exp.companyUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-gray-400 hover:text-white transition-colors"
-                      aria-label={`${exp.company} website`}
-                    >
-                      <FiArrowRight className="h-4 w-4" />
-                    </a>
-                  )}
+                <div className="flex justify-between items-start mb-4">
+                  <div className="text-left">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="text-xl font-semibold text-white">{exp.title}</h3>
+                      <span className="text-gray-500 text-sm">•</span>
+                      <a
+                        href={exp.companyUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-400 hover:text-white transition-colors inline-flex items-center"
+                      >
+                        {exp.company} <FiExternalLink className="ml-1 h-4 w-4" />
+                      </a>
+                    </div>
+                    <span className="text-gray-500 text-sm">{exp.period}</span>
+                  </div>
                 </div>
                 {exp.companyInfo && (
-                  <p className="text-gray-400 mb-3 text-xs italic border-l-2 border-gray-700 pl-3 line-clamp-2">
+                  <p className="text-gray-400 mb-3 text-xs italic border-l-2 border-gray-700 pl-3 text-left">
                     {exp.companyInfo}
                   </p>
                 )}
-                <div className="mb-3">
+                <div className="mb-3 text-left">
                   <p className="text-gray-300 text-sm">
                     {expandedItems[index] 
                       ? exp.description 
