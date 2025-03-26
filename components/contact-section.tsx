@@ -18,7 +18,7 @@ export function ContactSection() {
         >
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">Get In Touch</h2>
           <p className="text-gray-300 text-lg mb-12 max-w-2xl mx-auto">
-            I'm always interested in hearing about new projects and opportunities.
+            I&apos;m always interested in hearing about new projects and opportunities.
             Feel free to reach out through any of the channels below.
           </p>
           <div className="flex flex-wrap justify-center gap-8">

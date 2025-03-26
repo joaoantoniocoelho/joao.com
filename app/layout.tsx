@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://joaoac.com',
     title: 'João Coelho | Software Engineer',
-    description: 'Full Stack Developer with expertise in Node.js, React, TypeScript, and AWS..',
+    description: 'Full Stack Developer with expertise in Node.js, React, TypeScript, and AWS.',
     siteName: 'João Coelho Portfolio',
   },
   twitter: {
@@ -53,7 +53,6 @@ export default function RootLayout({
           attribute="class"
           defaultTheme="dark"
           enableSystem={false}
-          disableTransitionOnChange
         >
           <Navbar />
           {children}
