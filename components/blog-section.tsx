@@ -134,7 +134,12 @@ export function BlogSection() {
                       key={index}
                       className="keen-slider__slide"
                     >
-                      <div className="bg-white/5 rounded-lg overflow-hidden h-full">
+                      <a
+                        href={post.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block bg-white/5 rounded-lg overflow-hidden h-full cursor-pointer hover:bg-white/10 transition-colors"
+                      >
                         {post.thumbnail && (
                           <div className="relative w-full h-48">
                             <Image
@@ -150,16 +155,11 @@ export function BlogSection() {
                           <p className="text-sm text-gray-400 mb-2">{post.date}</p>
                           <h3 className="text-xl font-semibold text-white mb-3">{post.title}</h3>
                           <p className="text-gray-300 mb-4">{post.preview}</p>
-                          <a
-                            href={post.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center text-white hover:text-gray-300 transition-colors"
-                          >
+                          <div className="inline-flex items-center text-white hover:text-gray-300 transition-colors">
                             Read More <FiExternalLink className="ml-2 h-4 w-4" />
-                          </a>
+                          </div>
                         </div>
-                      </div>
+                      </a>
                     </motion.article>
                   ))}
                 </div>

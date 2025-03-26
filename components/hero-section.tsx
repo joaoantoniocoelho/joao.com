@@ -5,6 +5,7 @@ import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, useGLTF } from '@react-three/drei';
 import { motion } from 'framer-motion';
 import * as THREE from 'three';
+import Link from 'next/link';
 
 // This component will load and display a 3D model
 // Replace the model path with your own model URL when you have one
@@ -144,7 +145,7 @@ export function HeroSection() {
   return (
     <div 
       ref={containerRef}
-      className="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-black via-gray-900 to-black"
+      className="relative h-screen flex items-center justify-center overflow-hidden bg-black"
       style={{ touchAction: 'auto' }}
     >
       {/* Canvas wrapper with pointer-events-none to ensure it doesn't interfere with scrolling */}
@@ -169,9 +170,6 @@ export function HeroSection() {
           <fog attach="fog" args={['#000000', 5, 15]} />
           <Suspense fallback={null}>
             <Model mousePosition={mousePosition} scrollPosition={0} />
-            {/* When you have a model, use this instead:
-            <GLTFModel mousePosition={mousePosition} scrollPosition={scrollPosition} /> 
-            */}
           </Suspense>
           <OrbitControls
             enableZoom={false}
