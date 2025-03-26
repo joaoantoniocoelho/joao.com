@@ -5,31 +5,40 @@ import { FiExternalLink, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { useState, useEffect } from 'react';
 import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
+import { getMediumPosts } from '@/services/medium';
+import Image from 'next/image';
 
-const blogPosts = [
-  {
-    title: "Building Scalable HR Solutions with Node.js and AWS",
-    date: "June 15, 2024",
-    preview: "Exploring architectural patterns and best practices for developing enterprise-grade HR systems that can handle millions of users with Node.js microservices and AWS..."
-  },
-  {
-    title: "Optimizing React Performance in Large Enterprise Applications",
-    date: "May 30, 2024",
-    preview: "Techniques for improving React application performance when dealing with complex UI requirements and large datasets in enterprise HR portals..."
-  },
-  {
-    title: "Serverless Architecture for Modern HR Systems",
-    date: "May 10, 2024",
-    preview: "How to leverage AWS Lambda, DynamoDB, and API Gateway to create scalable and cost-effective payroll processing systems..."
-  },
-];
+interface BlogPost {
+  title: string;
+  date: string;
+  preview: string;
+  link: string;
+  thumbnail: string;
+}
 
 export function BlogSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [loaded, setLoaded] = useState(false);
   const [slidesPerView, setSlidesPerView] = useState(3);
   const [maxSlides, setMaxSlides] = useState(0);
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const posts = await getMediumPosts();
+        setBlogPosts(posts);
+      } catch (error) {
+        console.error('Error fetching blog posts:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
     initial: 0,
     slides: {
@@ -109,50 +118,75 @@ export function BlogSection() {
           </div>
 
           <div className="relative">
-            <div ref={sliderRef} className="keen-slider">
-              {blogPosts.map((post, index) => (
-                <motion.article
-                  key={index}
-                  className="keen-slider__slide"
-                >
-                  <div className="bg-white/5 rounded-lg overflow-hidden p-6 h-full">
-                    <p className="text-sm text-gray-400 mb-2">{post.date}</p>
-                    <h3 className="text-xl font-semibold text-white mb-3">{post.title}</h3>
-                    <p className="text-gray-300 mb-4">{post.preview}</p>
-                    <a
-                      href="https://medium.com/@joaoac"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center text-white hover:text-gray-300 transition-colors"
-                    >
-                      Read More <FiExternalLink className="ml-2 h-4 w-4" />
-                    </a>
-                  </div>
-                </motion.article>
-              ))}
-            </div>
-
-            {loaded && instanceRef.current && (
-              <div className="flex justify-center mt-8 gap-4">
-                <button
-                  onClick={() => instanceRef.current?.prev()}
-                  disabled={isPrevDisabled}
-                  className={`p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors ${
-                    isPrevDisabled ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
-                >
-                  <FiChevronLeft className="h-6 w-6 text-white" />
-                </button>
-                <button
-                  onClick={() => instanceRef.current?.next()}
-                  disabled={isNextDisabled}
-                  className={`p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors ${
-                    isNextDisabled ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
-                >
-                  <FiChevronRight className="h-6 w-6 text-white" />
-                </button>
+            {isLoading ? (
+              <div className="flex justify-center items-center h-64">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
               </div>
+            ) : blogPosts.length === 0 ? (
+              <div className="text-center text-gray-400 py-12">
+                No posts available at the moment.
+              </div>
+            ) : (
+              <>
+                <div ref={sliderRef} className="keen-slider">
+                  {blogPosts.map((post, index) => (
+                    <motion.article
+                      key={index}
+                      className="keen-slider__slide"
+                    >
+                      <div className="bg-white/5 rounded-lg overflow-hidden h-full">
+                        {post.thumbnail && (
+                          <div className="relative w-full h-48">
+                            <Image
+                              src={post.thumbnail}
+                              alt={post.title}
+                              fill
+                              className="object-cover"
+                              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                            />
+                          </div>
+                        )}
+                        <div className="p-6">
+                          <p className="text-sm text-gray-400 mb-2">{post.date}</p>
+                          <h3 className="text-xl font-semibold text-white mb-3">{post.title}</h3>
+                          <p className="text-gray-300 mb-4">{post.preview}</p>
+                          <a
+                            href={post.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center text-white hover:text-gray-300 transition-colors"
+                          >
+                            Read More <FiExternalLink className="ml-2 h-4 w-4" />
+                          </a>
+                        </div>
+                      </div>
+                    </motion.article>
+                  ))}
+                </div>
+
+                {loaded && instanceRef.current && blogPosts.length > slidesPerView && (
+                  <div className="flex justify-center mt-8 gap-4">
+                    <button
+                      onClick={() => instanceRef.current?.prev()}
+                      disabled={isPrevDisabled}
+                      className={`p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors ${
+                        isPrevDisabled ? 'opacity-50 cursor-not-allowed' : ''
+                      }`}
+                    >
+                      <FiChevronLeft className="h-6 w-6 text-white" />
+                    </button>
+                    <button
+                      onClick={() => instanceRef.current?.next()}
+                      disabled={isNextDisabled}
+                      className={`p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors ${
+                        isNextDisabled ? 'opacity-50 cursor-not-allowed' : ''
+                      }`}
+                    >
+                      <FiChevronRight className="h-6 w-6 text-white" />
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </motion.div>
