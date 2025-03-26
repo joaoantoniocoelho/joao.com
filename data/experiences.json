@@ -1,0 +1,92 @@
+{
+  "experiences": [
+    {
+      "title": "Senior Developer",
+      "company": "ADP",
+      "companyUrl": "https://www.linkedin.com/company/adp/",
+      "period": "May 2024 - Present",
+      "description": "As a Senior Developer at ADP, I'm responsible for building and maintaining scalable, enterprise-grade HR and payroll solutions that serve millions of users worldwide. My work involves developing high-performance microservices using Node.js, creating responsive user interfaces with React, and implementing cloud infrastructure on AWS. I collaborate with cross-functional teams to design robust architectures that meet complex business requirements while ensuring security, compliance, and optimal performance.",
+      "technologies": [
+        "Node.js",
+        "React",
+        "AWS",
+        "TypeScript",
+        "Microservices",
+        "CI/CD",
+        "Serverless"
+      ],
+      "companyInfo": "ADP is a global provider of cloud-based human capital management solutions that unite HR, payroll, talent, time, tax and benefits administration. As a leader in business outsourcing services, analytics and compliance expertise, ADP serves more than 1,100,000 clients in 140+ countries."
+    },
+    {
+      "title": "Development Consultant",
+      "company": "SAP",
+      "companyUrl": "https://www.linkedin.com/company/sap/",
+      "period": "February 2024 - April 2024",
+      "description": "As a Development Consultant, I collaborate with cross-functional teams to design and implement scalable, high-impact software solutions for enterprise clients. My responsibilities include architecting robust backend services, integrating AI-driven features for data-informed decisions, and leveraging cloud-based technologies to optimize customers' digital strategies. I also mentor junior developers, fostering a culture of technical excellence and continuous learning.",
+      "technologies": [
+        "Java",
+        "Spring Boot",
+        "Node.js",
+        "SAP UI5",
+        "SAP CAP",
+        "AI Integrations",
+        "Cloud-Based Solutions"
+      ],
+      "companyInfo": "SAP is the market leader in enterprise application software, helping companies of all sizes and industries run their best. SAP's machine learning, Internet of Things (IoT), and advanced analytics technologies help turn customers' businesses into intelligent enterprises. With a global network of customers, partners, employees, and thought leaders, SAP helps the world run better and improve people's lives."
+    },
+    {
+      "title": "Full Stack Developer",
+      "company": "Bazk",
+      "companyUrl": "https://www.linkedin.com/company/bazk/",
+      "period": "December 2021 - January 2024",
+      "description": "Drove critical financial and compliance initiatives in a high-volume environment, processing over 300 transactions per minute. Implemented a modern, microservices-based architecture using Java, Spring Boot, Node.js, and PostgreSQL to boost system reliability, scalability, and performance. Built a rules engine for automated compliance checks, reducing manual verification time and ensuring adherence to regulatory requirements. Developed internal dashboards and payment checkout flows, enhancing user experience and operational workflows. Optimized application stability and maintainability by writing extensive automated tests (JUnit, Jest, Spock), and led cloud migrations using AWS services (Lambda, EC2, SQS) to further improve cost-effectiveness, fault tolerance, and responsiveness.",
+      "technologies": [
+        "Java",
+        "Spring Boot",
+        "Node.js",
+        "TypeScript",
+        "React.js",
+        "AWS",
+        "PostgreSQL",
+        "MongoDB",
+        "Microservices",
+        "Jest",
+        "JUnit",
+        "Spock"
+      ],
+      "companyInfo": "Bazk operates as a digital payment gateway, providing secure and scalable payment solutions for national and international e-commerce transactions. The company specializes in innovative financial technologies that streamline payment processing while ensuring robust security and compliance with financial regulations."
+    },
+    {
+      "title": "Full Stack Developer",
+      "company": "Pling Brasil",
+      "period": "September 2018 - March 2019",
+      "description": "Contributed to the development of \"Universos,\" a news aggregator leveraging web scraping to collect and consolidate real-time information from multiple sources. Engineered reliable Node.js backend services and integrated MongoDB to enhance data processing efficiency and scalability. Built intuitive UI components with React.js, improving content presentation and user engagement. Implemented REST APIs to streamline data retrieval and reduce latency, ultimately delivering a seamless end-to-end user experience.",
+      "technologies": [
+        "TypeScript",
+        "Node.js",
+        "React.js",
+        "MongoDB",
+        "REST APIs",
+        "Web Scraping"
+      ],
+      "companyInfo": "A software development startup. Pling Brasil provides software development services, consulting, and website development for clients seeking digital transformation solutions."
+    }
+  ],
+  "skills": [
+    "Java",
+    "Spring Boot",
+    "Node.js",
+    "TypeScript",
+    "AWS",
+    "PostgreSQL",
+    "MongoDB",
+    "Microservices",
+    "Distributed Systems",
+    "RESTful APIs",
+    "System Design",
+    "Clean Code & Architecture",
+    "CI/CD",
+    "Docker",
+    "React.js"
+  ]
+}
