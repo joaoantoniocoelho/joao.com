@@ -12,16 +12,16 @@ function Model({ mousePosition, scrollPosition }: {
   mousePosition: { x: number; y: number };
   scrollPosition: number;
 }) {
-  // You can use a local model or a URL
-  // Example: const { scene } = useGLTF('/path/to/your/model.glb')
-  // For now, we'll keep using a sphere but show how to make it fancier
   const meshRef = useRef<THREE.Mesh>(null);
-  const time = useRef(0);
   const initialRotation = useRef({ x: 0, y: 0, z: 0 });
+  const timeRef = useRef(0);
   
-  // Store initial rotation for cumulative effect
+  // Store initial rotation for reference
   useEffect(() => {
     if (meshRef.current) {
+      // Set sphere to center position
+      meshRef.current.position.set(0, 0, 0);
+      
       initialRotation.current = {
         x: Math.random() * Math.PI,
         y: Math.random() * Math.PI,
@@ -30,48 +30,34 @@ function Model({ mousePosition, scrollPosition }: {
     }
   }, []);
 
-  // Add continuous subtle animation with useFrame
-  useFrame(({ clock }) => {
-    time.current = clock.getElapsedTime();
-    
+  // Animation based purely on mouse position
+  useFrame((state, delta) => {
     if (meshRef.current) {
-      // Calculate scroll factor with non-linear mapping for more dramatic effect at certain scroll positions
-      const normalizedScroll = scrollPosition / 1000; // Normalized between 0 and ~1 (depending on page height)
-      const scrollFactor = Math.pow(normalizedScroll, 1.5) * 10; // Non-linear mapping with exponent
+      timeRef.current += delta;
       
-      // Subtle position changes with slight scroll influence
-      meshRef.current.position.y = Math.sin(time.current * 0.5) * 0.1;
-      meshRef.current.position.x = Math.sin(time.current * 0.3) * 0.1;
-      
-      // Create different rotation speeds for each axis to avoid repetitive patterns
-      // X-axis: mostly influenced by scroll with sine wave modulation
-      meshRef.current.rotation.x = initialRotation.current.x + 
-                                  mousePosition.y * 0.05 + 
-                                  scrollFactor * 1.2 + 
-                                  Math.sin(normalizedScroll * 3) * 0.2;
-      
-      // Y-axis: continuous rotation with scroll acceleration
-      meshRef.current.rotation.y = initialRotation.current.y + 
-                                  mousePosition.x * 0.05 + 
-                                  time.current * 0.1 * (1 + normalizedScroll) + 
-                                  scrollFactor * 2;
-      
-      // Z-axis: slower continuous rotation with scroll direction changes
-      meshRef.current.rotation.z = initialRotation.current.z + 
-                                  time.current * 0.05 + 
-                                  Math.sin(scrollFactor) * 0.5;
+      // Base rotation with mouse interaction
+      meshRef.current.rotation.x = initialRotation.current.x + mousePosition.y * 0.5;
+      meshRef.current.rotation.y = initialRotation.current.y - mousePosition.x * 0.8;
+      meshRef.current.rotation.z = initialRotation.current.z + (mousePosition.x * mousePosition.y) * 0.1;
+
+      // Subtle pulse animation
+      const pulseScale = 1 + Math.sin(timeRef.current * 2) * 0.02;
+      meshRef.current.scale.set(pulseScale, pulseScale, pulseScale);
     }
   });
 
-  // For a fancier sphere (still using a sphere until you pick a model)
   return (
     <mesh ref={meshRef}>
-      <sphereGeometry args={[1, 64, 64]} />
+      <sphereGeometry args={[1.0, 16, 16]} /> {/* Reduced segments from 64,64 to 16,16 */}
       <meshStandardMaterial
         color="#ffffff"
         wireframe
-        roughness={0.5}
-        metalness={0.8}
+        roughness={0.1}
+        metalness={0.9}
+        transparent
+        opacity={0.7}
+        emissive="#ffffff"
+        emissiveIntensity={0.2}
       />
     </mesh>
   );
@@ -105,11 +91,10 @@ function GLTFModel({ mousePosition, scrollPosition }) {
 
 export function HeroSection() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [scrollPosition, setScrollPosition] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
 
-  // Throttle function to limit the number of scroll event executions
+  // Throttle function to limit the number of mouse event executions
   const throttle = (callback: Function, delay: number) => {
     let lastCall = 0;
     return (...args: any[]) => {
@@ -125,9 +110,11 @@ export function HeroSection() {
   useEffect(() => {
     // Handle both mouse and touch events for position tracking
     const handleMouseMove = throttle((e: MouseEvent) => {
+      // Use a smaller amplifier for more subtle effect
+      const amplifier = 1.0; // Reduced from 2.0 to 1.0
       setMousePosition({
-        x: (e.clientX / window.innerWidth) * 2 - 1,
-        y: -(e.clientY / window.innerHeight) * 2 + 1
+        x: ((e.clientX / window.innerWidth) * 2 - 1) * amplifier,
+        y: (-(e.clientY / window.innerHeight) * 2 + 1) * amplifier
       });
     }, 16); // ~60fps
 
@@ -136,34 +123,29 @@ export function HeroSection() {
       // Just track the touch for the sphere movement
       if (e.touches.length > 0) {
         const touch = e.touches[0];
+        const amplifier = 1.0; // Reduced from 2.0 to 1.0
         setMousePosition({
-          x: (touch.clientX / window.innerWidth) * 2 - 1,
-          y: -(touch.clientY / window.innerHeight) * 2 + 1
+          x: ((touch.clientX / window.innerWidth) * 2 - 1) * amplifier,
+          y: (-(touch.clientY / window.innerHeight) * 2 + 1) * amplifier
         });
       }
-    }, 16); // ~60fps
-
-    const handleScroll = throttle(() => {
-      setScrollPosition(window.scrollY);
     }, 16); // ~60fps
 
     // Add all event listeners
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('touchmove', handleTouchMove, { passive: true }); // Make passive to allow scrolling
-    window.addEventListener('scroll', handleScroll);
     
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
   return (
     <div 
       ref={containerRef}
-      className="relative h-screen flex items-center justify-center overflow-hidden bg-black"
-      style={{ touchAction: 'auto' }} // Allow all touch actions on the container
+      className="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-black via-gray-900 to-black"
+      style={{ touchAction: 'auto' }}
     >
       {/* Canvas wrapper with pointer-events-none to ensure it doesn't interfere with scrolling */}
       <div 
@@ -173,13 +155,20 @@ export function HeroSection() {
         {/* Canvas itself with pointer-events-none to ensure it doesn't block scrolling */}
         <Canvas
           style={{ pointerEvents: 'none' }}
-          gl={{ alpha: true }}
+          gl={{ 
+            alpha: true,
+            antialias: true,
+            powerPreference: "high-performance"
+          }}
         >
           <PerspectiveCamera makeDefault position={[0, 0, 5]} />
-          <ambientLight intensity={0.5} />
-          <pointLight position={[10, 10, 10]} intensity={1} />
+          <ambientLight intensity={0.2} />
+          <pointLight position={[10, 10, 10]} intensity={1.5} />
+          <pointLight position={[-10, -10, -10]} intensity={0.5} />
+          <pointLight position={[0, 0, 10]} intensity={0.8} />
+          <fog attach="fog" args={['#000000', 5, 15]} />
           <Suspense fallback={null}>
-            <Model mousePosition={mousePosition} scrollPosition={scrollPosition} />
+            <Model mousePosition={mousePosition} scrollPosition={0} />
             {/* When you have a model, use this instead:
             <GLTFModel mousePosition={mousePosition} scrollPosition={scrollPosition} /> 
             */}
@@ -187,7 +176,9 @@ export function HeroSection() {
           <OrbitControls
             enableZoom={false}
             enablePan={false}
-            enableRotate={false}
+            enableRotate={true}
+            rotateSpeed={0.2}
+            autoRotate={false}
           />
         </Canvas>
       </div>
@@ -198,24 +189,33 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          style={{
-            transform: `translateY(${-scrollPosition * 0.2}px)`,
-          }}
         >
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+          <motion.h1 
+            className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
             João Coelho
-          </h1>
-          <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+          </motion.h1>
+          <motion.p 
+            className="text-xl md:text-2xl text-gray-300 mb-12 max-w-2xl mx-auto font-light tracking-wide"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
             Senior Software Engineer
-          </p>
+          </motion.p>
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             <a
               href="#experience"
-              className="inline-block bg-white text-black px-8 py-3 rounded-full font-medium hover:bg-gray-200 transition-colors"
+              className="inline-block bg-white/10 backdrop-blur-sm text-white px-8 py-3 rounded-full font-medium hover:bg-white/20 transition-all duration-300 border border-white/20 hover:border-white/40"
             >
               View My Work
             </a>

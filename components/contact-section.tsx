@@ -2,58 +2,56 @@
 
 import { motion } from 'framer-motion';
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
-import { MdEmail } from 'react-icons/md';
 import { SiX } from 'react-icons/si';
 
 export function ContactSection() {
   return (
-    <section id="contact" className="py-20 bg-black/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="contact" className="relative py-20 bg-gradient-to-b from-black via-black/95 to-black">
+      <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center"
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">Get In Touch</h2>
-          <p className="text-gray-300 text-lg mb-12 max-w-2xl mx-auto">
-            I&apos;m always interested in hearing about new projects and opportunities.
-            Feel free to reach out through any of the channels below.
+          <h2 className="text-4xl font-bold text-white mb-4">Get in Touch</h2>
+          <p className="text-gray-400 max-w-2xl mx-auto">
+            I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.
           </p>
-          <div className="flex flex-wrap justify-center gap-8">
-            <a
-              href="https://linkedin.com/in/joaoac"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn Profile"
-              className="text-white hover:text-gray-300 transition-colors"
-            >
-              <FaLinkedin className="h-7 w-7" />
-            </a>
-            <a
-              href="https://x.com/joaoac_dev"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="X (Twitter) Profile"
-              className="text-white hover:text-gray-300 transition-colors"
-            >
-              <SiX className="h-6 w-6" />
-            </a>
-            <a
-              href="https://github.com/joaoantoniocoelho"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub Profile"
-              className="text-white hover:text-gray-300 transition-colors"
-            >
-              <FaGithub className="h-7 w-7" />
-            </a>
-            <div className="flex items-center text-white">
-              <MdEmail className="h-7 w-7 mr-2" aria-hidden="true" />
-              joaoantonioscoelho@gmail.com
-            </div>
-          </div>
+        </motion.div>
+
+        <motion.div 
+          className="flex justify-center gap-8"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+        >
+          <a
+            href="https://linkedin.com/in/joaoac"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-400 hover:text-white transition-colors"
+          >
+            <FaLinkedin className="w-8 h-8" />
+          </a>
+          <a
+            href="https://x.com/joaoac_dev"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-400 hover:text-white transition-colors"
+          >
+            <SiX className="w-7 h-7" />
+          </a>
+          <a
+            href="https://github.com/joaoantoniocoelho"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-400 hover:text-white transition-colors"
+          >
+            <FaGithub className="w-8 h-8" />
+          </a>
         </motion.div>
       </div>
     </section>

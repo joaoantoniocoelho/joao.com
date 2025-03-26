@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { FiExternalLink, FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import { FiArrowRight, FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import experiencesData from '@/data/experiences.json';
 import { useState } from 'react';
 
@@ -34,7 +34,7 @@ export function ExperienceSection() {
               className="inline-flex items-center text-white hover:text-gray-300 transition-colors"
             >
               View All Experiences
-              <FiExternalLink className="ml-2 h-4 w-4" />
+              <FiArrowRight className="ml-2 h-4 w-4" />
             </a>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
@@ -61,7 +61,7 @@ export function ExperienceSection() {
                       className="text-gray-400 hover:text-white transition-colors"
                       aria-label={`${exp.company} website`}
                     >
-                      <FiExternalLink className="h-4 w-4" />
+                      <FiArrowRight className="h-4 w-4" />
                     </a>
                   )}
                 </div>

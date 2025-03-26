@@ -26,9 +26,8 @@ export function AboutSection() {
               I enjoy working across the stack, especially when cloud platforms and microservices are involved.
               </p>
               <p className="text-gray-300 text-lg mb-6">
-              When I'm not coding, I'm usually out trying new coffee spots or hanging out with my two dogs — a clever and independent Shiba Inu, and a sweet and sleepy Shih Tzu.
-              I train Muay Thai to keep my head clear and stay balanced (especially after a long day).
-              I'm also into racing sims — nothing like jumping into a cockpit and chasing lap times to unwind.
+              When I'm not coding, you'll usually find me exploring new coffee spots, traveling to experience new cultures, or relaxing at home with my dogs.
+              To stay balanced, I practice Muay Thai, and for fun, I enjoy playing racing sims.
               </p>
             </div>
             <div className="space-y-6">

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { FiArrowRight, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { FiExternalLink, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { useState, useEffect } from 'react';
 import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
@@ -104,7 +104,7 @@ export function BlogSection() {
               rel="noopener noreferrer"
               className="inline-flex items-center text-white hover:text-gray-300 transition-colors"
             >
-              Read all posts <FiArrowRight className="ml-2 h-4 w-4" />
+              Read all posts <FiExternalLink className="ml-2 h-4 w-4" />
             </a>
           </div>
 
@@ -125,7 +125,7 @@ export function BlogSection() {
                       rel="noopener noreferrer"
                       className="inline-flex items-center text-white hover:text-gray-300 transition-colors"
                     >
-                      Read More <FiArrowRight className="ml-2 h-4 w-4" />
+                      Read More <FiExternalLink className="ml-2 h-4 w-4" />
                     </a>
                   </div>
                 </motion.article>
