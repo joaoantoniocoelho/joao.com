@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { FiExternalLink, FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import { FiExternalLink, FiChevronDown, FiChevronUp, FiArrowLeft } from 'react-icons/fi';
 import experiencesData from '@/data/experiences.json';
 import { useState } from 'react';
 
@@ -19,7 +19,7 @@ export default function ExperiencesPage() {
   return (
     <main className="min-h-screen bg-black py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8">
+        <div className="mb-8 mt-8">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-3">Professional Experience</h1>
           <p className="text-gray-300 text-lg">
             A comprehensive timeline of my professional journey in software development.

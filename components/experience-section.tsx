@@ -27,8 +27,15 @@ export function ExperienceSection() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <div className="mb-10">
+          <div className="flex justify-between items-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold text-white">Experience</h2>
+            <a 
+              href="/experiences" 
+              className="inline-flex items-center text-white hover:text-gray-300 transition-colors"
+            >
+              View All Experiences
+              <FiExternalLink className="ml-2 h-4 w-4" />
+            </a>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             {featuredExperiences.map((exp, index) => (

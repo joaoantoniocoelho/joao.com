@@ -104,7 +104,7 @@ export function BlogSection() {
               rel="noopener noreferrer"
               className="inline-flex items-center text-white hover:text-gray-300 transition-colors"
             >
-              View on Medium <FiArrowRight className="ml-2 h-4 w-4" />
+              Read all posts <FiArrowRight className="ml-2 h-4 w-4" />
             </a>
           </div>
 
