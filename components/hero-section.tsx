@@ -16,7 +16,20 @@ function Model({ mousePosition, scrollPosition }: {
   const meshRef = useRef<THREE.Mesh>(null);
   const initialRotation = useRef({ x: 0, y: 0, z: 0 });
   const timeRef = useRef(0);
+  const [sphereSize, setSphereSize] = useState(1.0);
   
+  // Handle responsive sphere size
+  useEffect(() => {
+    const handleResize = () => {
+      const isMobile = window.innerWidth < 768;
+      setSphereSize(isMobile ? 0.9 : 1.0);
+    };
+
+    handleResize(); // Set initial size
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // Store initial rotation for reference
   useEffect(() => {
     if (meshRef.current) {
@@ -36,59 +49,33 @@ function Model({ mousePosition, scrollPosition }: {
     if (meshRef.current) {
       timeRef.current += delta;
       
-      // Base rotation with mouse interaction
-      meshRef.current.rotation.x = initialRotation.current.x + mousePosition.y * 0.5;
-      meshRef.current.rotation.y = initialRotation.current.y - mousePosition.x * 0.8;
-      meshRef.current.rotation.z = initialRotation.current.z + (mousePosition.x * mousePosition.y) * 0.1;
+      // Base rotation with mouse interaction (reduced intensity)
+      meshRef.current.rotation.x = initialRotation.current.x + mousePosition.y * 0.2;
+      meshRef.current.rotation.y = initialRotation.current.y - mousePosition.x * 0.3;
+      meshRef.current.rotation.z = initialRotation.current.z + (mousePosition.x * mousePosition.y) * 0.05;
 
-      // Subtle pulse animation
-      const pulseScale = 1 + Math.sin(timeRef.current * 2) * 0.02;
+      // Subtle pulse animation (reduced frequency and intensity)
+      const pulseScale = 1 + Math.sin(timeRef.current * 1.2) * 0.01;
       meshRef.current.scale.set(pulseScale, pulseScale, pulseScale);
     }
   });
 
   return (
-    <mesh ref={meshRef}>
-      <sphereGeometry args={[1.0, 16, 16]} /> {/* Reduced segments from 64,64 to 16,16 */}
+        <mesh ref={meshRef}>
+      <sphereGeometry args={[sphereSize, 16, 16]} /> {/* Responsive size */}
       <meshStandardMaterial
         color="#ffffff"
         wireframe
         roughness={0.1}
         metalness={0.9}
         transparent
-        opacity={0.7}
+        opacity={0.4}
         emissive="#ffffff"
-        emissiveIntensity={0.2}
+        emissiveIntensity={0.1}
       />
     </mesh>
   );
 }
-
-// Example of how to load a GLTF model (commented out until you have a model)
-/*
-function GLTFModel({ mousePosition, scrollPosition }) {
-  const gltf = useGLTF('/path/to/your/model.glb');
-  const modelRef = useRef();
-  
-  useFrame(({ clock }) => {
-    if (modelRef.current) {
-      // Similar animation logic as above
-      const normalizedScroll = scrollPosition / 1000;
-      modelRef.current.rotation.y = clock.getElapsedTime() * 0.1 + normalizedScroll * 2;
-      // Add more animations as needed
-    }
-  });
-  
-  return (
-    <primitive 
-      object={gltf.scene} 
-      ref={modelRef} 
-      scale={[0.5, 0.5, 0.5]} // Adjust scale as needed
-      position={[0, 0, 0]} // Adjust position as needed
-    />
-  );
-}
-*/
 
 export function HeroSection() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -163,11 +150,11 @@ export function HeroSection() {
           }}
         >
           <PerspectiveCamera makeDefault position={[0, 0, 5]} />
-          <ambientLight intensity={0.2} />
-          <pointLight position={[10, 10, 10]} intensity={1.5} />
-          <pointLight position={[-10, -10, -10]} intensity={0.5} />
-          <pointLight position={[0, 0, 10]} intensity={0.8} />
-          <fog attach="fog" args={['#000000', 5, 15]} />
+          <ambientLight intensity={0.1} />
+          <pointLight position={[10, 10, 10]} intensity={0.8} />
+          <pointLight position={[-10, -10, -10]} intensity={0.3} />
+          <pointLight position={[0, 0, 10]} intensity={0.4} />
+          <fog attach="fog" args={['#000000', 8, 20]} />
           <Suspense fallback={null}>
             <Model mousePosition={mousePosition} scrollPosition={0} />
           </Suspense>
@@ -182,14 +169,14 @@ export function HeroSection() {
       </div>
 
       {/* Content with pointer-events-auto to make it interactive */}
-      <div className="relative z-10 text-center px-4 pointer-events-auto">
+      <div className="relative z-10 text-center px-8 pointer-events-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
           <motion.h1 
-            className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight"
+            className="text-5xl md:text-7xl font-bold text-white mb-8 tracking-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -197,7 +184,7 @@ export function HeroSection() {
             João Coelho
           </motion.h1>
           <motion.p 
-            className="text-xl md:text-2xl text-gray-300 mb-12 max-w-2xl mx-auto font-light tracking-wide"
+            className="text-xl md:text-2xl text-gray-300 mb-16 max-w-2xl mx-auto font-light tracking-wide"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}

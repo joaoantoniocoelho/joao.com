@@ -20,15 +20,15 @@ export function ExperienceSection() {
   
   return (
     <section id="experience" className="py-16 bg-black/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-8 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <div className="flex justify-between items-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-white">Experience</h2>
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-0">Experience</h2>
             <a 
               href="/experiences" 
               className="inline-flex items-center text-white hover:text-gray-300 transition-colors"

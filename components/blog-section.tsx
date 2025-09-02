@@ -46,7 +46,7 @@ export function BlogSection() {
       spacing: 24,
     },
     breakpoints: {
-      "(max-width: 768px)": {
+      "(max-width: 640px)": {
         slides: {
           perView: 1,
           spacing: 16,
@@ -98,15 +98,15 @@ export function BlogSection() {
 
   return (
     <section id="blog" className="py-20 bg-black">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-8 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <div className="flex justify-between items-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white">Latest Posts</h2>
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-0">Latest Posts</h2>
             <a
               href="https://medium.com/@joaoac"
               target="_blank"
@@ -132,31 +132,32 @@ export function BlogSection() {
                   {blogPosts.map((post, index) => (
                     <motion.article
                       key={index}
-                      className="keen-slider__slide"
+                      className="keen-slider__slide flex h-full"
                     >
                       <a
                         href={post.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="block bg-white/5 rounded-lg overflow-hidden h-full cursor-pointer hover:bg-white/10 transition-colors"
+                        className="block bg-white/5 rounded-lg overflow-hidden w-full cursor-pointer hover:bg-white/10 transition-colors flex flex-col h-96 sm:h-96"
                       >
                         {post.thumbnail && (
-                          <div className="relative w-full h-48">
+                          <div className="relative w-full h-36 sm:h-40 md:h-48 flex-shrink-0">
                             <Image
                               src={post.thumbnail}
                               alt={post.title}
                               fill
                               className="object-cover"
-                              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                             />
                           </div>
                         )}
-                        <div className="p-6">
-                          <p className="text-sm text-gray-400 mb-2">{post.date}</p>
-                          <h3 className="text-xl font-semibold text-white mb-3">{post.title}</h3>
-                          <p className="text-gray-300 mb-4">{post.preview}</p>
-                          <div className="inline-flex items-center text-white hover:text-gray-300 transition-colors">
-                            Read More <FiExternalLink className="ml-2 h-4 w-4" />
+                        <div className="p-4 sm:p-5 md:p-6 flex flex-col justify-between flex-grow min-h-0">
+                          <div className="flex-grow">
+                            <p className="text-xs sm:text-sm text-gray-400 mb-2">{post.date}</p>
+                            <h3 className="text-lg sm:text-xl font-semibold text-white leading-tight line-clamp-3">{post.title}</h3>
+                          </div>
+                          <div className="inline-flex items-center text-white hover:text-gray-300 transition-colors text-sm mt-4 flex-shrink-0">
+                            Read More <FiExternalLink className="ml-2 h-3 w-3 sm:h-4 sm:w-4" />
                           </div>
                         </div>
                       </a>
