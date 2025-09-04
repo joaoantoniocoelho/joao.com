@@ -5,7 +5,6 @@ import { FiExternalLink, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { useState, useEffect } from 'react';
 import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
-import { getMediumPosts } from '@/services/medium';
 import Image from 'next/image';
 
 interface BlogPost {
@@ -16,28 +15,16 @@ interface BlogPost {
   thumbnail: string;
 }
 
-export function BlogSection() {
+interface BlogSectionProps {
+  posts: BlogPost[];
+}
+
+export function BlogSection({ posts }: BlogSectionProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [loaded, setLoaded] = useState(false);
   const [slidesPerView, setSlidesPerView] = useState(3);
   const [maxSlides, setMaxSlides] = useState(0);
-  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const posts = await getMediumPosts();
-        setBlogPosts(posts);
-      } catch (error) {
-        console.error('Error fetching blog posts:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchPosts();
-  }, []);
+  const blogPosts = posts; // Posts recebidos via props do servidor
 
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
     initial: 0,
@@ -118,11 +105,7 @@ export function BlogSection() {
           </div>
 
           <div className="relative">
-            {isLoading ? (
-              <div className="flex justify-center items-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
-              </div>
-            ) : blogPosts.length === 0 ? (
+            {blogPosts.length === 0 ? (
               <div className="text-center text-gray-400 py-12">
                 No posts available at the moment.
               </div>
